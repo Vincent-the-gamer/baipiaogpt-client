@@ -18,3 +18,6 @@ Core repository:
 Webpage Version:
 
 [https://vincent-the-gamer.github.io/baipiaogpt-wasm-page/](https://vincent-the-gamer.github.io/baipiaogpt-wasm-page/)
+
+# Preview
+![preview](./.github/preview.png)
