@@ -105,6 +105,14 @@ button
     z-index: 2;
     transition: background-color, 0.5s;
     &:hover
-        cursor: pointer;
+        cursor pointer
+    &:disabled
+        cursor not-allowed
+        background-color gray
+        color black
+        &:hover
+            cursor not-allowed
+            background-color gray
+            color black
     
 </style>

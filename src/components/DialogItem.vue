@@ -37,6 +37,7 @@ import useMarkdownIt from "@/hooks/useMarkdownit";
 <style lang="stylus" scoped>
   
     .dialog-item{
+        font-size: 14px;
         border-radius: 8px;
         position: relative;
         margin: 0 auto;
