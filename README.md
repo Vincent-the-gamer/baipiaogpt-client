@@ -19,5 +19,33 @@ Webpage Version:
 
 [https://vincent-the-gamer.github.io/baipiaogpt-wasm-page/](https://vincent-the-gamer.github.io/baipiaogpt-wasm-page/)
 
+
+# Build from source
+
+## Generate Icons
+```shell
+> cargo tauri icon --help
+cargo-tauri-icon 1.1.0
+
+Generates various icons for all major platforms
+
+USAGE:
+    cargo tauri icon [OPTIONS] [INPUT]
+
+ARGS:
+    <INPUT>    Path to the source icon (png, 1024x1024px with transparency) [default: ./app-icon.png]
+
+OPTIONS:
+    -h, --help               Print help information
+    -o, --output <OUTPUT>    Output directory. Default: 'icons' directory next to the tauri.conf.json file
+    -v, --verbose            Enables verbose logging
+    -V, --version            Print version information
+```
+
+## Build
+```shell
+pnpm tauri build
+```
+
 # Preview
 ![preview](./.github/preview.png)

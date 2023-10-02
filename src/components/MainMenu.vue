@@ -51,6 +51,7 @@ const themeStore = useThemeStore()
                     background-color: rgb(76, 75, 75);
                     border: 3px solid deepskyblue;     
                     color: white;
+                    font-size: 12px;
                     &:hover
                         background-color: blue;
 
@@ -70,6 +71,7 @@ const themeStore = useThemeStore()
                     background-color: rgb(227, 227, 227);
                     border: 3px solid rgb(255, 0, 255);     
                     color: black;
+                    font-size: 12px;
                     &:hover
                         background-color: rgb(255, 0, 0);
 

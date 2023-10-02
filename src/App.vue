@@ -2,7 +2,8 @@
     <Header/>
     <MainMenu v-if="chatStore.chatContents.length < 1"/>
     <div :class="themeStore.theme" v-else>
-        <button @click="clearChat">清空对话</button>
+        <button @click="clearChat"
+                :disabled="chatStore.isRequesting">清空对话</button>
         <Dialog/>
     </div>
     <Footer/>
@@ -10,15 +11,17 @@
 
 <script setup lang="ts">
 import Header from '@/components/Header.vue';
- import MainMenu from '@/components/MainMenu.vue';
- import Dialog from '@/components/Dialog.vue';
- import Footer from "@/components/Footer.vue";
- import useChatStore from '@/store/useChatStore';
+import MainMenu from '@/components/MainMenu.vue';
+import Dialog from '@/components/Dialog.vue';
+import Footer from "@/components/Footer.vue";
+import useChatStore from '@/store/useChatStore';
 import useThemeStore from '@/store/useThemeStore';
 import { onBeforeUnmount, onMounted, watch } from 'vue';
+import dayjs from 'dayjs';
 
- // 如果没有对话，展示主菜单
  const chatStore = useChatStore()
+ const themeStore = useThemeStore()
+
  // 把对滚动条的操作在组件挂载后传给store
  onMounted(() => {
     let timer: any;
@@ -32,11 +35,13 @@ import { onBeforeUnmount, onMounted, watch } from 'vue';
             })
         }, 500)
     }
+
+    // 根据时间段获取默认主题
+    themeStore.setTheme(getCurrentTheme())
  })
 
 
  // 改变body样式
-const themeStore = useThemeStore()
 watch(themeStore, (newVal) => {
     if(newVal.theme === "light"){
         document.body.style.backgroundColor = "white" 
@@ -47,6 +52,14 @@ watch(themeStore, (newVal) => {
         document.body.style.color = "white"
     }
 })
+
+// 根据不同时间段设置默认主题，18点到次日早上7点是晚上，其他时候是白天
+function getCurrentTheme(): string{
+    const currentHour: number = dayjs().hour()
+    if(currentHour >= 18 && currentHour <= 7) return "dark"
+    else return "light"
+}
+
 
  // 清空页面对话
  function clearChat(){
@@ -59,7 +72,7 @@ watch(themeStore, (newVal) => {
 
 // 退出页面时清空上下文
 onBeforeUnmount( async () => {
-  // await axiosWithContext.get("/clearContext")
+  chatStore.clearChat()
 })
 </script>
 

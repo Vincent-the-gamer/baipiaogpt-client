@@ -14,22 +14,29 @@
             <p align="center">
                 <button id="choose-model" @click="showChooseModel = !showChooseModel">{{ showChooseModel ? "隐藏模型选择框" :
                     "选择模型" }}</button>
-                <button @click="chatStore.regenerate" :disabled="inputStore.content.trim() === ''"
-                    v-if="chatStore.model === 'gpt3.5'">重新生成答案</button>
+                <button @click="chatStore.regenerate" 
+                        :disabled="chatStore.chatContents.length < 1 || chatStore.isRequesting"
+                        v-if="chatStore.model === 'gpt3.5'">重新生成答案</button>
             </p>
             <div class="input-area" v-if="isWin">
                 <textarea type="text" ref="textareaRef" placeholder="输入问题，拷打GPT！" v-model="inputStore.content"
                     @keyup.ctrl.enter="sendMessage" />
-                <button @click="sendMessage" :disabled="inputStore.content.trim() === ''">提问(Ctrl + Enter)</button>
+                <button @click="sendMessage" 
+                       :disabled="inputStore.content.trim() === '' || chatStore.isRequesting"
+                       >提问(Ctrl + Enter)</button>
             </div>
             <div class="input-area" v-else-if="isMac">
                 <textarea type="text" ref="textareaRef" placeholder="输入问题，拷打GPT！" v-model="inputStore.content"
                     @keydown.meta.enter="sendMessage" />
-                <button @click="sendMessage" :disabled="inputStore.content.trim() === ''">提问(⌘ + Enter)</button>
+                <button @click="sendMessage" 
+                       :disabled="inputStore.content.trim() === '' || chatStore.isRequesting"
+                       >提问(⌘ + Enter)</button>
             </div>
             <div class="input-area" v-else>
                 <textarea type="text" ref="textareaRef" placeholder="输入问题，拷打GPT！" v-model="inputStore.content" />
-                <button @click="sendMessage" :disabled="inputStore.content.trim() === ''">提问</button>
+                <button @click="sendMessage" 
+                        :disabled="inputStore.content.trim() === '' || chatStore.isRequesting"
+                        >提问</button>
             </div>
         </div>
     </footer>
@@ -62,6 +69,7 @@ const changeHeight = (e: any) => {
     textareaRef.value.style.height = "53px"
     textareaRef.value.style.height = e.target.scrollHeight + 'px';
 }
+
 onMounted(() => {
     textareaRef.value.addEventListener("input", changeHeight)
 })
@@ -135,6 +143,10 @@ const themeStore = useThemeStore()
     
 
  footer
+    textarea
+        font-size 15px
+    button
+        font-size 12px
     &.dark
         background-color: rgba(44, 44, 44, 0.5);
         .select-model
