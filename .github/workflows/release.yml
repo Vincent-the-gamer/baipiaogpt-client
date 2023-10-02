@@ -49,15 +49,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
  
-     # 安装 Node.js
+      # 安装 Node.js
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 16
  
       # 安装 Rust
       - name: Install Rust stable
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@v2
         with:
           toolchain: stable
  
@@ -70,18 +70,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libappindicator3-dev librsvg2-dev patchelf
 
-      # 使用 pnpm 缓存
-      - uses: pnpm/action@v2
-        with:
-          # 安装依赖
-          args: install
-          # 启用 GitHub 缓存
-          cache: pnpm
+      # 安装pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm  # 安装全局的pnpm
  
       # 安装依赖执行构建，以及推送 github release
       - name: Install app dependencies and build it
+
       # package.json里面配置的编译命令
-        run: pnpm && pnpm tauri build
+        run: pnpm tauri build
       - uses: tauri-apps/tauri-action@v0.3
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
