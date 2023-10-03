@@ -1,0 +1,5 @@
+*.styl linguist-language=Stylus
+*.ts linguist-language=TypeScript
+*.vue linguist-language=Vue
+*.rs linguist-language=Rust
+*.html linguist-language=HTML
