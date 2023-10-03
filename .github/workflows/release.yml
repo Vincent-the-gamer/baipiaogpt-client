@@ -43,7 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-latest, windows-latest]
+        platform: [macos-latest, macos-arm64, ubuntu-latest, windows-latest]
  
     runs-on: ${{ matrix.platform }}
     steps:
@@ -82,7 +82,17 @@ jobs:
       - name: Install app dependencies and build it
 
       # package.json里面配置的编译命令
-        run: pnpm tauri build
+        run: |
+          if [[ ${{ matrix.platform }} == 'macos-latest' ]]; then
+            # 在Intel macOS上执行构建命令
+            pnpm tauri build
+          elif [[ ${{ matrix.platform }} == 'macos-arm64' ]]; then
+            # 在Apple Silicon macOS上执行构建命令
+            pnpm tauri build --target arch=aarch64-apple-darwin
+          else
+            # 在其他平台上执行构建命令
+            pnpm tauri build
+          fi
       - uses: tauri-apps/tauri-action@v0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
