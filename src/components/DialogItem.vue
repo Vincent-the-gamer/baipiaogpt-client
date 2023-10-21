@@ -45,6 +45,9 @@ import useMarkdownIt from "@/hooks/useMarkdownit";
         height: fit-content;
         min-height: 150px;
         transition: width, 0.5s;
+        ::-webkit-scrollbar {
+            display none
+        }
         &:hover{
             transform: scale(102%, 102%);
         }
